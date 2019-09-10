@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible">
+    <title>EMS: Employee Management System</title>
+    <link rel="dns-prefetch" href="//fonts.gstatic.com">
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Nunito">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="../assets/css/employee-style.css">
+    <link rel="stylesheet" type="text/css" href="../assets/css/hover-min.css">
+    <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $('.thing').slick({
+                dots: true,
+                arrows: false,
+                autoplay: true,
+                autoplaySpeed: 500
+            });
+        })
+    </script>
+    <!-- <style>
+      .wholenav{
+    background-color: black!important;
+    
+      }
+    </style> -->
+    </head>
+
+    <body>
+            <nav class="navbar fixed-top navbar-expand-lg navbar-light wholenav" id="navbar-changes">
+               
+                    <a class="oner" style="text-decoration:none; color:white" href="#"></a>
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                      <span class="navbar-toggler-icon"></span>
+                    </button>
+                  
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                      <ul class="navbar-nav ml-auto">
+                        <li class="nav-item active hvr-sweep-to-top">
+                          <a class="nav-link" style="text-decoration:none; color:white" href="/hr/dashboard">Dashboard <span class="sr-only">(current)</span></a>
+                        </li>
+                        <li class="nav-item  hvr-sweep-to-top">
+                          <a class="nav-link" style="text-decoration:none; color:white" href="#">About</a>
+                        </li>
+                        <li class="nav-item  hvr-sweep-to-top">
+                          <a class="nav-link" style="text-decoration:none; color:white" href="#">Admissions</a>
+                        </li>
+                        <li class="nav-item  hvr-sweep-to-top">
+                          <a class="nav-link" style="text-decoration:none; color:white" href="#">Curriculum</a>
+                        </li>
+                        <li class="nav-item  hvr-sweep-to-top">
+                          <a class="nav-link" style="text-decoration:none; color:white" href="#">Community</a>
+                        </li>
+                        <li class="nav-item dropdown hvr-sweep-to-top dropdown-slide dropdown-hover">
+                            <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" style="text-decoration:none; color:white" href="#"></a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                                <a class="dropdown-item" href="/admin/dashboard">SchoolProfile</a>
+                                <a class="dropdown-item" href="/logout">Logout</a>
+                            </div>
+                          </li>
+                      </ul>
+                    </div>
+                    
+                  </nav>
+                  <br/><br/><br/><br/><br><br>
+              <div class="all">
+                  
+                  <section id="main">
+                      <div class="container">
+                          <div class="row">
+                                    <div class="col-md-3">
+                                            <div class="list-group">
+                                                <div class="hold-image" style="margin-left: 10%;">
+                                                    <img src="<%=employee.profilephoto%>" width="200" height="200"/>
+                                                </div>
+                                                <div class="company-name">
+                                                    Name: <%=user.name%>
+                                                </div>
+                                                <%if(user.user_type==1){%>
+                                                <div class="role">
+                                                   Employee Page
+                                                </div><%}else if(user.user_type==3){%>
+                                                    <div class="role">Employee(HOD)</div><%}%>
+                                              </div>
+                              </div>
+                              <div class="col-md-9">
+                                  <div class="container">
+                                      <a href="/employee/dashboard" style="text-decoration: none; color: #fff">Dashboard</a>&nbsp;
+                                      <a href="/logout" style="text-decoration: none; color: #fff">Logout</a>
+                                  </div>
+                                <div class="card">
+                                  <h5 class="card-header bg-dark text-white text-center">Request For Leave</h5>
+                                  <div class="card-body">
+                                        <form action="/employee/leavereq" method="POST">
+                                            <div class="form-row">
+                                                <div class="form-group col-md-4 text-white">
+                                                    <label for="duration">Duration of Leave</label>
+                                                </div>
+                                                <div class="form-group col-md-4">
+                                                    <input type="text" name="duration_number" class="form-control"/>
+                                                </div>
+                                                <div class="form-group col-md-4">
+                                                    <select class="form-control" name="format">
+                                                        <option value="days">days</option>
+                                                        <option value="weeks">weeks</option>
+                                                        <option value="months">months</option>
+                                                        <option value="years">years</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <br>
+                                            <div class="form-row">
+                                                <div class="form-group col-md-4 text-white">
+                                                    <label for="basis">Reason for Request</label>
+                                                </div>
+                                                <div class="form-group col-md-4">
+                                                    <select name="reason" class="form-control">
+                                                        <option value="official">Official</option>
+                                                        <option value="maternity">Maternity</option>
+                                                        <option value="health">Health</option>
+                                                        <option value="travel">Travel</option>
+                                                        <option value="others">Others</option>
+                                                    </select>
+                                                </div>
+                                                <div class="form-group col-md-4">
+                                                    <button class="btn btn-outline-info" style="float: right" type="submit">Request</button>
+                                                </div>
+                                            </div>
+                                            
+                                        </form>
+                                  </div>
+                                </div>
+                              </div>
+                          </div>
+                      </div>
+                  </section>
+                  </div>
+                  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+                  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+                  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+                  </body>

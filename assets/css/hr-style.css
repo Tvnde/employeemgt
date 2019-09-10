@@ -1,0 +1,212 @@
+@font-face{
+    font-family: 'Black Gold';
+    src: url('../fonts/BlackGold_Personal_use.otf');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face{
+    font-family: 'Mollen-Regular';
+    src: url('../fonts/Mollen-RegularPersonalUse.otf');
+    font-weight: normal;
+    font-style: normal;
+}
+
+
+body{
+    background-color: #000000;
+    background-image: linear-gradient(147deg, #000000 0%, #2c3e50 74%);
+    font-family: 'Mollen-Regular', Arial, Helvetica, sans-serif;
+}
+
+
+
+.hold-image img{
+    float: none;
+    margin: 0 auto;
+    width: 170px;
+    height: 170px;
+    -webkit-border-radius: 50% !important;
+    -moz-border-radius: 50% !important;
+    border-radius: 50% !important;
+}
+
+nav{
+    background-color: #89d4cf;
+    background-image: linear-gradient(315deg, #89d4cf 0%, #6e45e1 74%);
+    
+}
+.navbar-default { margin : 0 !important; }
+
+.navbar ul li{
+    display: inline-block;
+    margin-right: 20px;
+}
+.notifications{
+    width: 20px;
+    height: 20px;
+    display: inline-block;
+    background: #fff;
+    border-radius: 50%;
+    text-align: center;
+    padding-bottom: 20%;
+
+}
+.ewk li{
+    padding-top: 10px;
+    margin-right: 2px!important;
+}
+#main .container .row .col-md-3 .list-group{
+    border: 3px solid #008080;
+    box-shadow: 10px 10px 8px #888888;
+    font-family: 'Mollen-Regular', sans-serif, Arial, Helvetica;
+    border-radius: 2%;
+}
+
+#main .container .row .col-md-3 .list-group div{
+    margin-top: 10px;
+}
+#main .container .row .col-md-3 .list-group img{
+    margin: 0 auto;
+}
+.company-name{
+    background: #008080;
+    border-radius: 10%;
+    text-align: center
+}
+.role{
+    background: #008080;
+    border-radius: 10%;
+    text-align: center
+}
+.main-content .col-md-3{
+    margin-left: 5%;
+}
+
+
+.dropdown-menu-center {
+    right: auto;
+    left: 50%;
+    -webkit-transform: translate(-50%, 0);
+    -o-transform: translate(-50%, 0);
+    transform: translate(-50%, 0);
+}
+
+.dropdown-menu-center a div{
+    margin-left: 20px;
+}
+.dropdown-menu-center a i{
+    margin: 5px 0 0 5px;
+    display: block;
+    border: 1px solid black;
+    width: 25px;
+    height: 6px;
+    line-height: 4px;
+    border-radius: 50%;
+    text-align: center;
+    padding-bottom: 16px;
+    z-index: 1;
+    position: absolute;
+}
+.nav-item a i{
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: -1;
+    padding-top: 13px;
+}
+.nav-item{
+    margin-right: 25px;
+
+}
+.nav-item a span{
+    border-radius: 50%;
+    background: #fff;
+    color: rgba(38, 194, 129, 1.0);
+    font-size: 14px;
+    top: 10;
+}
+.count{
+    display: inline;
+    margin-right: 30px;
+}
+.countd{
+    display: inline-block;
+    height: 60px;
+    border: 2px solid;
+}
+.countd span{
+    display: block;
+
+
+}
+
+.card{
+    background-color: #000000;
+    background-image: linear-gradient(147deg, #000000 0%, #2c3e50 74%);
+}
+
+.for_listgroup{
+    background-color: #000000!important;
+    background-image: linear-gradient(147deg, #000000 0%, #2c3e50 74%)!important;
+}
+
+.side-nav{
+    height: 100%;
+    width: 0;
+    z-index: 1;
+    position: fixed;
+    top: 0;
+    left: 0;
+    opacity: 1;
+    overflow-x: hidden;
+    padding-top: 200px;
+    transition: 0.8s;
+}
+
+.side-nav a{
+    padding: 10px 10px 10px 05px;
+    text-decoration: none;
+    font-size: 15px;
+    color: #ccc;
+    display: block;
+    transition: 0.3s;
+    text-align: center;
+    border-bottom: 1px solid #ccc;
+}
+.side-nav a:hover{
+    color: #fff;
+    text-decoration: none;
+    background-color: teal;
+
+}
+
+.open{
+    width: 250px;
+}
+
+.side-nav .btn-close{
+    position: absolute;
+    right: 22px;
+    font-size: 36px;
+    margin-left: 30px;
+    color: aqua;
+}
+
+.holde{
+    position: relative;
+    display: inline-block;
+}
+.hold-button{
+    text-align: left;
+}
+#click{
+    position: absolute;
+    height: 10px;
+    top: 0;
+    right: 0;
+}
+
+#click button{
+    height: 37px;
+}
+

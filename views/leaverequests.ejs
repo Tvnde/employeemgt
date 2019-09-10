@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible">
+    <title>EMS: Employee Management System</title>
+    <link rel="dns-prefetch" href="//fonts.gstatic.com">
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Nunito">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="../assets/css/hr-style.css">
+    <link rel="stylesheet" type="text/css" href="../assets/css/hover-min.css">
+    <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $('.thing').slick({
+                dots: true,
+                arrows: false,
+                autoplay: true,
+                autoplaySpeed: 500
+            });
+        })
+    </script>
+    <!-- <style>
+      .wholenav{
+    background-color: black!important;
+    
+      }
+    </style> -->
+    </head>
+
+    <body>
+       
+      
+            <nav class="navbar fixed-top navbar-expand-lg navbar-light wholenav" id="navbar-changes">
+               
+                    <a class="oner" style="text-decoration:none; color:white" href="#" onclick="openSlideMenu()"><i class="fas fa-bars"></i></a>
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                            <span class="navbar-toggler-icon"></span>
+                    </button>
+                    </a>
+                  
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                      <ul class="navbar-nav ml-auto" id="custom-move">
+                        <li class="nav-item active hvr-sweep-to-top">
+                          <a class="nav-link" style="text-decoration:none; color:white" href="/hr/dashboard">Dashboard <span class="sr-only">(current)</span></a>
+                        </li>
+                        <li class="nav-item dropdown hvr-sweep-to-top dropdown-slide dropdown-hover">
+                          <a class="nav-link" id="navbarDropdownMenuLink" data-toggle="dropdown" style="text-decoration:none; color:white" href="#"><div class="notifications"><i class="far fa-bell fa-1x"></i><span><%=numRead%></span></div>Notificatons</a>
+                          <div class="dropdown-menu dropdown-menu-center" aria-labelledby="navbarDropdownMenuLink">
+                            <%for(var i=0; i< notifications.length; i++){
+                                if(notifications[i].TypeID==3){%>
+                                 <a href="/admin/viewleavereq/<%=notifications[i].id%>" class="dropdown-item"><i class="fas fa-sign-out-alt"></i><div>Leave Request by <%=notifications[i].Sender.name%></div><hr></a>
+                                <%}
+                            }%>
+                          </div>
+                        </li>
+                        <li class="nav-item dropdown hvr-sweep-to-top dropdown-slide dropdown-hover">
+                            <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" style="text-decoration:none; color:white" href="#"><div class="notifications"><img src="../assets/img/staff-icon.png" width="70%"/></div><%=user.name%></a>
+                            <div class="dropdown-menu dropdown-menu-center" aria-labelledby="navbarDropdownMenuLink">
+                                <a class="dropdown-item" href="/hr/dashboard">Company Profile</a><hr>
+                                <a class="dropdown-item" href="/hr/dashboard">Notifications</a><hr>
+                                <a class="dropdown-item" href="/hr/dashboard">Projects</a><hr>
+                                <a class="dropdown-item" href="/hr/staffs">Staffs</a><hr>
+                                <a class="dropdown-item" href="/logout">Logout</a>
+                            </div>
+                          </li>
+                      </ul>
+                    </div>
+                  </nav><br><br>
+                  <div class="navbar navbar-dark bg-dark ewk text-white"">
+                      
+                        <ul>
+                          <li class="nav-item">Home /</li>
+                          <li class="nav-item">H.R.O /</li>
+                          <li class="nav-item">Dashboard</li>
+                        </ul>
+                     
+                    </div>
+                    <div id="side-menu" class="side-nav bg-dark">
+                            <a href="/"><i class="fas fa-home"></i> Dashboard</a>
+                            <a href="#"><i class="fas fa-clipboard-list"></i> Attendance</a>
+                            <a href="/hr/viewleave">Leave</a>
+                            <a href="/hr/staffs"><i class="fas fa-user"></i> Employees</a>
+                            <a href="/hr/payroll-system">Payroll</a>
+                            <a href="/hr/departments">Departments</a>
+                            <a href="/hr/projects">Projects</a>
+                        </div>
+                  <br/><br/><br/><br/>
+              <div class="all">
+                  
+                    
+
+                  <section id="main">
+                      <div class="container">
+                          <%-messages('message', locals) %>
+                          <div class="row">
+                              <div class="col-md-3">
+                                <div class="list-group">
+                                    <div class="hold-image" style="margin-left: 15%;">
+                                        <img src="../<%=staffs.profilephoto%>" width="200" height="200"/>
+                                    </div>
+                                    <div class="company-name">
+                                        Name: <%=user.name%>
+                                    </div>
+                                    <div class="role">
+                                       HR Page
+                                    </div>
+                                    <div class="level">
+                                        Department: HR
+                                    </div>
+                                  </div>
+                              </div>
+                              <div class="col-md-9">
+                                <div class="card">
+                                  <h5 class="card-header text-white text-center">Leave Requests</h5>
+                                <div class="card-body">
+                                    <div class="list-group list-group-flush for_listgroup">
+                                        <%for(var m=0; m< leaverequests.length; m++){%>
+                                            <li class="list-group-item flex-column align-items-start list-group-item-action" style="background-color: #000000!important; background-image: linear-gradient(147deg, #000000 0%, #2c3e50 74%)!important;">
+                                                <div class="d-flex w-100 justify-content-between">
+                                                    <h6 class="mb-1 text-white"><%=leaverequests[m].RequestedBy.name%> requested for a leave based on <%=leaverequests[m].Basis%></h6>
+                                                    <small class="text-white"><%=leaverequests[m].DateRequested%></small>
+                                                </div>
+                                                <div class="container">
+                                                    <p class="text-white">Duration: <%=leaverequests[m].Duration%></p>
+                                                    <p class="text-white">Department: <%=leaverequests[m].RequestedBy.department%></p>
+                                                    <%if(user.user_type==2){%>
+                                                    <% if(leaverequests[m].Approval == 1 || leaverequests[m].Approval == 0){%>
+                                                    <button class="btn btn-outline-info"><a href="/hr/<%=leaverequests[m].id%>/accept" style="text-decoration: none; color: teal">Accept</a></button>&nbsp;<button class="btn btn-outline-info"><a href="/hr/<%=leaverequests[m].id%>/reject" style="text-decoration: none; color: teal">Reject</a></button>&nbsp;<button class="btn btn-outline-info">Send a Message</button>
+                                                    <%}else if(leaverequests[m].Approval == 2){%>
+                                                        <p class="text-white">This Request was Approved.</p>
+                                                        <%}else{%>
+                                                            <p class="text-white">This request has been Declined</p>
+                                                            <%}}else if(user.user_type==3){%>
+                                                            <%if(leaverequests[m].Approval == 0){%>
+                                                                <button class="btn btn-outline-info"><a href="/employee/<%=leaverequests[m].id%>/accept" style="text-decoration: none; color: teal">Accept</a></button>&nbsp;<button class="btn btn-outline-info"><a href="/employee/<%=leaverequests[m].id%>/reject" style="text-decoration: none; color: teal">Reject</a></button>&nbsp;<button class="btn btn-outline-info">Send a Message</button>
+                                                                <%}else if(leaverequests[m].Approval == 1){%>
+                                                                    <p class="text-white">This Request was Approved.(Waiting for HRO Approval)</p>
+                                                                    <%}else if(leaverequests[m].Approval == 2){%>
+                                                                    <p class="text-white">This Request was Approved.</p>
+                                                            <%}else{%>
+                                                            <p class="text-white">This request has been Declined</p>
+                                                            <%}
+                                                            }%>
+                                                </div>
+                                            </li>
+                                        <%}%>
+                                    </ul>
+                                </div>
+                                </div><br>
+                              </div>
+                          </div>
+                          
+                      </div>
+                     
+                  </section>
+
+                  
+                  </div>
+                  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+                  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+                  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+                  <script>
+                      function openSlideMenu(){
+                          $('#side-menu').toggleClass('open');
+                      }
+
+                  </script>
+                  </body>

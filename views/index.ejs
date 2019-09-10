@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible">
+    <title>Employee Management System</title>
+    <link rel="dns-prefetch" href="//fonts.gstatic.com">
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Nunito">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="../assets/css/home-style.css">
+    <link rel="stylesheet" type="text/css" href="../assets/css/animate.css">
+    <link rel="stylesheet" type="text/css" href="../assets/css/slick-theme.css"><!-- 
+    <link rel="stylesheet" type="text/css" href="../assets/css/hover-min.css"> -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
+    <link rel="stylesheet" href="../assets/css/ekko-lightbox.css">
+    <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+
+    <!-- <style>
+      .wholenav{
+    background-color: black!important;
+    
+      }
+    </style> -->
+    </head>
+
+    <body>
+      <div id="loader">
+
+      </div>
+      <div id="top">
+        <header>
+            <div id="home" class="container pt-4">
+                <nav class="navbar fixed-top navbar-expand-lg navbar-light wholenav" id="navbar-changes">
+                   
+                        <a class="oner" style="text-decoration:none; color:white" href="#">EMS (Logo Here)</a>
+                        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                          <span class="navbar-toggler-icon"></span>
+                        </button>
+                      
+                        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                          <ul class="navbar-nav ml-auto">
+                            <li class="nav-item active hvr-sweep-to-top">
+                              <a class="nav-link" style="text-decoration:none; color:white" href="/">Home <span class="sr-only">(current)</span></a>
+                            </li>
+                            <li class="nav-item  hvr-sweep-to-top">
+                              <a class="nav-link" style="text-decoration:none; color:white" href="#about">About</a>
+                            </li>
+                            <li class="nav-item  hvr-sweep-to-top">
+                              <a class="nav-link" style="text-decoration:none; color:white" href="#services">Services</a>
+                            </li><% if(!typeof user==undefined){%>
+                            <% if(user.user_type==1){%>
+                              <li class="nav-item dropdown hvr-sweep-to-top dropdown-slide dropdown-hover">
+                                <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" style="text-decoration:none; color:white" href="#"><%=user.username%></a>
+                                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                                    <a class="dropdown-item" href="/employee/dashboard">My Dashboard</a>
+                                    <a class="dropdown-item" href="/logout">Logout</a>
+                                </div>
+                              </li>
+                              
+                              
+                              <%}
+                              else if(user.user_type==2){%>
+                                <li class="nav-item dropdown hvr-sweep-to-top dropdown-slide dropdown-hover">
+                                  <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" style="text-decoration:none; color:white" href="#"><%=user.username%></a>
+                                  <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                                      <a class="dropdown-item" href="/hr/dashboard">My Dashboard</a>
+                                      <a class="dropdown-item" href="/logout">Logout</a>
+                                  </div>
+                                </li>
+                              <%}
+                              else if(user.user_type==0){%>
+                                <li class="nav-item dropdown hvr-sweep-to-top dropdown-slide dropdown-hover">
+                                  <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" style="text-decoration:none; color:white" href="#"><%=user.username%></a>
+                                  <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                                      <a class="dropdown-item" href="/admin/dashboard">My Dashboard</a>
+                                      <a class="dropdown-item" href="/logout">Logout</a>
+                                  </div>
+                                </li>
+                              
+                              
+                            <%}
+                            
+                            else{%>
+                              <li class="nav-item  hvr-sweep-to-top">
+                                <a class="nav-link" style="text-decoration:none; color:white" href="/user/login">Private Login</a>
+                              </li>
+    
+                              <%}
+                            }
+                             
+                              else{%>
+                                <li class="nav-item  hvr-sweep-to-top">
+                                  <a class="nav-link" style="text-decoration:none; color:white" href="/user/login">Private Login</a>
+                                </li>
+                                <li class="nav-item  hvr-sweep-to-top">
+                                    <a class="nav-link" style="text-decoration:none; color:white" href="/user/register">Register</a>
+                                  </li>
+                                <%}%>
+                              
+                          </ul>
+                        </div>
+                        
+                      </nav>
+                    </div>
+                    <div class="da-home-page-text" data-aos="fade-right" data-aos-duration="1000">
+                      <div class="container">
+                        <div class="col-md-10 col-sm-12 px-0 mx-0">
+                          <h2 class="display-3" style="margin-left: -6px;">Employee Management System</h2>
+                          <h3 class="h5 mt-3">A System that handles the activities of the organization in a flexible manner</h3><!-- <a class="smooth-scroll btn btn-outline-light mt-4" href="#learn">Learn More</a>&nbsp;<a class="smooth-scroll btn btn-outline-light mt-4" href="/registerschool">Register your School</a> -->
+                        </div>
+                      </div>
+    
+                    </div>
+        </header>
+        <div class="page-content">
+          <div  id="about">
+            <div class="da-section" id="learn">
+              <div class="container">
+                <div class="hold-why">
+                  <div class="h3 pb-3 text-center" data-aos="fade-up">Why do you need this System?</div>
+                  <p class="px-5 pb-5 text-center" data-aos="fade-down">I'll fill Up this detail later. Until then, bla bla bla bla bla bla bla bla bla bla....</p>
+                </div>
+                <div class="row">
+                  <div class="col-md-4">
+                    <div class="card mb-3" data-aos="flip-left">
+                      <div class="card-body mt-4 mb-1 text-center"><i class="pb-3 fas fa-desktop fa-3x"></i>
+                        <div class="h4 pb-3">User Friendliness</div>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo con.</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="card md-3" data-aos="zoom-in-up">
+                      <div class="card-body mt-4 mt-1 text-center"><i class="pb-3 fas fa-sliders-h fa-3x"></i>
+                        <div class="h4 pb-3">Flexibility</div>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo con.</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="card md-3" data-aos="flip-right">
+                      <div class="card-body mt-4 mb-1 text-center"><i class="fas fa-check-square fa-4x"></i>
+                        <div class="h4 pb-3">Accuracy</div>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo con.</p>
+                      
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div id="footer">
+          <div class="container">
+            <div class="row">
+              <div class="col-md-6">
+                <div class="row text-center text-xs-center text-sm-left text-md-left footer-text footer">
+                  <div class="col-md-6 text-white text-center">
+                    <h5>Address</h5><i class="fas fa-map-pin text-white"></i>
+                    <p>First Floor, 12 Oshitelu Street, Ikeja Lagos.</p><br/><br/>
+                    <h5>Other Services</h5><i class="far fa-clipboard text-white"></i>
+                    <p><a href="https://totalitnigeria.com" style="text-decoration: none; color: white;">www.totalitnigeria.com</a></p>
+                    <p><a href="https://busng.com" style="text-decoration: none; color: white;">www.busng.com</a></p>
+                    <p><a href="https://aldeliarecruits.com" style="text-decoration: none; color: white;">www.aldelia.com</a></p>
+                  </div>
+                  <div class="col-md-6 text-white text-center">
+                    <h5>Contacts</h5>
+                    <i class="fas fa-mobile-alt text-white"></i>&nbsp; &nbsp;<i class="fas fa-mail-bulk text-white"></i>
+                    <p>Phone: 08025321238</p>
+                    <p>Email: info@totalitnigeria.com</p><br/>
+                    <h5>Feedback</h5><br/>
+                    <p>Please send us your ideas, bug reports, suggestions! Any feedback would be appreciated.</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3963.4222421043773!2d3.3379132142667816!3d6.594327324166632!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x103b922749e8554f%3A0x7de5a8a5a16ee883!2sTotal+IT+NIgeria+Ltd.!5e0!3m2!1sen!2sng!4v1561991445621!5m2!1sen!2sng" width="600" height="450" frameborder="0" style="border:0" allowfullscreen></iframe>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+     
+       
+                <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+                <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+                <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+                <script src="../assets/js/slick.js" type="text/javascript"></script>
+                <script src="../assets/js/custom.js"></script>
+                <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+                <script src="../assets/js/ekko-lightbox.min.js"></script>
+                <script type="text/javascript">
+                  function loadNow(opacity){
+                    if(opacity <=0){
+                      displayContent();
+                    }
+                    else{
+                      loader.style.opacity = opacity;
+                      window.setTimeout(function(){
+                        loadNow(opacity-0.05)
+                      }, 100);
+                    }
+                  }
+          
+                  function displayContent(){
+                    loader.style.display = 'none';
+                    document.getElementById('top').style.display = 'block';
+                  }
+          
+                  document.addEventListener("DOMContentLoaded", function(){
+                    loader = document.getElementById('loader');
+                    loadNow(1);
+                  })
+                  AOS.init();
+              </script>
+      
+
+    
+    </body>
+    </html>
