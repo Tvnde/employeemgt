@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible">
+    <title>EMS: Employee Management System</title>
+    <link rel="dns-prefetch" href="//fonts.gstatic.com">
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Nunito">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="/assets/css/admin-style.css">
+    <link rel="stylesheet" type="text/css" href="/assets/css/hr-style.css">
+    <link rel="stylesheet" type="text/css" href="/assets/css/hover-min.css">
+    <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $('.thing').slick({
+                dots: true,
+                arrows: false,
+                autoplay: true,
+                autoplaySpeed: 500
+            });
+        })
+    </script>
+    <!-- <style>
+      .wholenav{
+    background-color: black!important;
+    
+      }
+    </style> -->
+    </head>
+
+    <body>
+       
+      
+            <nav class="navbar fixed-top navbar-expand-lg navbar-light wholenav" id="navbar-changes">
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                            <span class="navbar-toggler-icon"></span>
+                    </button>
+                    </a>
+                  
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                      <ul class="navbar-nav ml-auto" id="custom-move">
+                        <li class="nav-item active hvr-sweep-to-top text-white">
+                          <a class="nav-link" style="text-decoration:none; color:white" href="/admin/dashboard">Dashboard <span class="sr-only">(current)</span></a>
+                        </li>
+                        <li class="nav-item dropdown hvr-sweep-to-top dropdown-slide dropdown-hover text-white">
+                          <a class="nav-link" id="navbarDropdownMenuLink" data-toggle="dropdown" style="text-decoration:none; color:white" href="#"><div class="notifications"><i class="far fa-bell fa-1x"></i><span>21</span></div>Notificatons</a>
+                          <div class="dropdown-menu dropdown-menu-center" aria-labelledby="navbarDropdownMenuLink">
+                            
+                          </div>
+                        </li>
+                        <li class="nav-item dropdown hvr-sweep-to-top dropdown-slide dropdown-hover text-white">
+                            <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" style="text-decoration:none; color:white" href="#"><div class="notifications"><img src="../assets/img/staff-icon.png" width="70%"/></div><%=user.name%></a>
+                            <div class="dropdown-menu dropdown-menu-center" aria-labelledby="navbarDropdownMenuLink">
+                                <a class="dropdown-item" href="/admin/dashboard">Company Profile</a><hr>
+                                <a class="dropdown-item" href="/admin/messages">Messages</a><hr>
+                                <a class="dropdown-item" href="/logout">Logout</a>
+                            </div>
+                          </li>
+                      </ul>
+                    </div>
+                  </nav><br><br>
+                  <div class="navbar navbar-dark bg-dark ewk text-white"">
+                      
+                        <ul>
+                          <li class="nav-item">Home /</li>
+                          <li class="nav-item">Employee /</li>
+                          <li class="nav-item">Payroll</li>
+                        </ul>
+                     
+                    </div>
+                    
+                  <br/><br/><br/><br/>
+
+
+                  <div class="all">
+                      <section id="main">
+                          <div class="container">
+                              <%-messages('message', locals) %>
+                              <div class="row">
+                                  <div class="col-md-3">
+                                      <div class="list-group">
+                                          <div class="hold-image" style="margin-left: 15%;">
+                                            <img src="<%=employee.profilephoto%>" width="200" height="200"/>
+                                        </div>
+                                        <div class="company-name">
+                                            Name: <%=user.name%>
+                                        </div>
+                                        <div class="role">
+                                            HR Page
+                                        </div>
+                                        <div class="level">
+                                            Department: <%=employee.department%>
+                                        </div>
+                                      </div>
+                                  </div>
+
+                                  <div class="col-md-9"><div class="container"><a href="/employee/dashboard" style="text-decoration: none; color:#ffffff"><i class="fas fa-arrow-left"></i>Dashboard</a></div>
+                                  
+                                      <div class="card">
+                                          <h5 class="card-header text-white text-center">Payroll - <%=employee.name%>(<%=employee.department%>,<%=employee.level%>)</h5>
+                                          <div class="card-body text-white">
+                                              <h4>Basic Salary: <%=payroll.Allowances['Basic']%></h4><br>
+                                              <div class="row">
+                                                  <div class="col-md-6">
+                                                      <div class="text-white text-center">
+                                                          <h4 class="text-white">Allowances<hr class="bg-dark"></h4>
+                                                          <%for(key in payroll.Allowances){
+                                                                if(payroll.Allowances.hasOwnProperty(key) && !(payroll.Allowances[key].includes('-')) && key!='Basic'){%>
+                                                                    <h5 class="d-inline"><%=key%>: </h5><h6 class="d-inline"><%=payroll.Allowances[key]%></h6><br><br>
+                                                                <%}
+                                                        }%>
+
+                                                      </div>
+                                                  </div>
+
+                                                  <div class="col-md-6">
+                                                        <div class="text-white text-center">
+                                                            <h4>Deductions<hr class="bg-light"></h4>
+                                                            <%for(key in payroll.Allowances){
+                                                                if(payroll.Allowances.hasOwnProperty(key) && (payroll.Allowances[key].includes('-'))){%>
+                                                                    <h5 class="d-inline"><%=key%>: </h5><h6 class="d-inline"><%=payroll.Allowances[key]%></h6><br><br>
+                                                                <%}
+                                                        }%>
+                                                        </div>
+                                                    </div>
+                                                  
+                                              </div>
+                                              <div style="margin-left:30%">
+                                              <button class="btn btn-outline-info">Generate</button>
+                                              </div>
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                      </section>
+                  </div>
+
+
+                  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+                  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+                  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+                  <script>
+                      var i=0;
+                      function openSlideMenu(){
+                          $('#side-menu').toggleClass('open');
+                      }
+
+                      function changeVal(check){
+                        $('#former'+check).hide();
+                        $('#input'+check).removeAttr("hidden");
+                        $('#undo'+check+'Buttn').removeAttr("hidden");
+                        $('#change'+check+'Buttn').hide();
+                      }
+
+                      function UndoChange(check){
+                         //  $('#get'+check).val() = "";
+                          $('#former'+check).show();
+                          $('#input'+check).attr("hidden", true);
+                          $('#undo'+check+'Buttn').attr("hidden", true);
+                          $('#change'+check+'Buttn').show();
+                      }
+                      function incr(){
+                      $('.hold-form').prepend('<div class="form-row"><div class="form-group"><label for="allowance" style="margin-left: 40%">Allowance</label><br>For: <input type="text" class="form-control hold-button" name=allowance'+i+'><br>Amount: <div class="holde"><input type="text" class="form-control buttn-hold" name=amount'+i+'><div id="click"><button type="button" class="btn btn-sm btn-primary naira" onclick="getter()">NGN</button><button type="button" class="btn btn-sm btn-danger percent"><i class="fas fa-percentage"></i></button></div></div></div></div>');
+                      i++;
+                      }
+                      function decr(){
+                      $('.hold-form').prepend('<div class="form-row"><div class="form-group"><label for="allowance" style="margin-left: 40%">Deduction</label><br>For: <input type="text" class="form-control hold-button" name=deduction'+i+'><br>Amount: <div class="holde"><input type="text" class="form-control buttn-hold" name=decamount'+i+'><div id="click"><button type="button" class="btn btn-sm btn-primary naira" onclick="getter()">NGN</button><button type="button" class="btn btn-sm btn-danger percent"><i class="fas fa-percentage"></i></button></div></div></div></div>');
+                      i++;
+                      }
+
+
+
+
+                  </script>
+                  <script>
+                      let filterInput = document.getElementById('staffname');
+
+                      filterInput.addEventListener('keyup', filterNames);
+
+                      function filterNames(){
+                          let filterValue = document.getElementById('staffname').value.toUpperCase();
+
+                          let ul = document.getElementById('for_employees');
+
+                          let li = ul.querySelectorAll('li.collection-item');
+
+                          for(let j=0; j< li.length; j++){
+                              let a = li[j].getElementsByTagName('a')[0];
+
+                              if(a.innerHTML.toUpperCase().indexOf(filterValue) > -1){
+                                li[j].style.display = '';
+                              }else{
+                                li[j].style.display = 'none';
+                              }
+                          }
+                      }
+                  </script>
+                  </body>
+                  </html>

@@ -520,19 +520,28 @@ router.get('/payroll-system', (req, res)=>{
 
 router.get('/basic-salary', (req, res)=>{
     employees.findOne({username: req.user.username}, (err, employee)=>{
-        notifications.find({company: req.user.company}, (err, allnotifications)=>{
-            var counter = 0;
-            for(var d=0; d<allnotifications.length; d++){
-                if(allnotifications[d].Read==false)counter++;
-            }
-            salaries.find({company: req.user.company}, (err, salaryInfo)=>{
-                res.render('basicsalary',{
-                    salaries: salaryInfo,
-                    notifications: allnotifications,
-                    user: req.user,
-                    unreadCount: counter,
-                    employee: employee
-                });
+        companies.findOne({username: req.user.company}, (err, company)=>{
+            notifications.find({company: req.user.company}, (err, allnotifications)=>{
+                var counter = 0;
+                for(var d=0; d<allnotifications.length; d++){
+                    if(allnotifications[d].Read==false)counter++;
+                }
+                salaries.find({company: req.user.company}, (err, salaryInfo)=>{
+                    var salaryInfo_i = [];
+                    for(var v=0; v< salaryInfo.length; v++){
+                        if(salaryInfo[v].EmployeeType!=undefined || salaryInfo[v].EmployeeType!=null){
+                            salaryInfo_i.push(salaryInfo[v]);
+                        }
+                    }
+                    res.render('basicsalary',{
+                        salaries: salaryInfo_i,
+                        notifications: allnotifications,
+                        user: req.user,
+                        unreadCount: counter,
+                        employee: employee,
+                        company: company
+                    });
+                })
             })
         })
     })
@@ -582,7 +591,10 @@ router.post('/create-payroll', (req, res)=>{
         var push = {};
         push['Basic'] = req.body[Object.keys(req.body)[1]];
         for(var x=2; x<(Object.keys(req.body).length)-1; x+=2){
-            push[req.body[Object.keys(req.body)[x]]] = req.body[Object.keys(req.body)[x+1]];
+            if(Object.keys(req.body)[x].includes('deduction')){
+                push[req.body[Object.keys(req.body)[x]]] = "-"+req.body[Object.keys(req.body)[x+1]];
+            }
+            else push[req.body[Object.keys(req.body)[x]]] = req.body[Object.keys(req.body)[x+1]];            
         }
         console.log(push);
         AddSalary.Allowances = push;
@@ -612,6 +624,7 @@ router.post('/create-payroll', (req, res)=>{
 
 router.get('/level:level', (req, res)=>{
     salaries.find({company: req.user.company, EmployeeType: req.params.level}, (err, payrolLvl)=>{
+        console.log(payrolLvl);
         if(err) console.log(err);
         else{
             notifications.find({company: req.user.company}, (err, allnotifications)=>{
@@ -706,7 +719,7 @@ router.post('/save-payroll/:payrollID', (req, res)=>{
                 AddLog.Text = "Payroll for Level "+value.EmployeeType+" was modified by "+req.user.name+"("+req.user.username+") on "+AddLog.DateCreated;
                 AddLog.Company = req.user.company;
                 AddLog.Department = hrstaff.department;
-                AddLog.ViewType = value.EmployeeType;
+                AddLog.ViewType = 3;
 
                 AddLog.save((err)=>{
                     if(err) console.log(err);
@@ -719,6 +732,100 @@ router.post('/save-payroll/:payrollID', (req, res)=>{
         })
     })
         
+});
+
+router.post('/save-payrollstaff/:payrollID',(req, res)=>{
+    employees.findOne({username: req.user.username}, (err, hrstaff)=>{
+        employees.findOne({username: req.body.staff_user}, (err, employee)=>{
+            salaries.findById(req.params.payrollID, (err, value)=>{
+                var salarieObj = {};
+                for(var h=0; h<Object.keys(req.body).length; h++){
+                    console.log("New");
+                    console.log(req.body[Object.keys(req.body)[h]]);
+                    console.log(req.body[Object.keys(req.body)[h]].length);
+                    console.log(!(Object.keys(req.body)[h].includes("allowance")));
+                    console.log(!(Object.keys(req.body)[h].includes("amount")));
+                    console.log(req.body[Object.keys(req.body)[h]].length>0);
+                    console.log(!(Object.keys(req.body)[h].includes("staff_user")));
+                
+
+
+                    if(Object.keys(req.body)[h].includes("allowance")){
+                        salarieObj[req.body[Object.keys(req.body)[h]]] = req.body[Object.keys(req.body)[h+1]];
+                    }
+                    else if(Object.keys(req.body)[h].includes("deduction")){
+                        console.log(req.body[Object.keys(req.body)[h]]);
+                        salarieObj[req.body[Object.keys(req.body)[h]]] = "-"+req.body[Object.keys(req.body)[h+1]];
+                    }
+                    else if(!(Object.keys(req.body)[h].includes("allowance")) && !(Object.keys(req.body)[h].includes("amount")) && req.body[Object.keys(req.body)[h]].length>0 && !(Object.keys(req.body)[h].includes("staff_user"))){
+                        console.log("True");
+                        salarieObj[Object.keys(req.body)[h]] = req.body[Object.keys(req.body)[h]];
+                    }
+                    
+                }
+                for(var c=0; c< Object.keys(salarieObj).length; c++){
+                    value.Allowances[Object.keys(salarieObj)[c]] = salarieObj[Object.keys(salarieObj)[c]];
+                }
+                console.log(salarieObj);
+                console.log(value.Allowances);
+                salaries.findOne({EmployeeName: req.body.staff_user},(err, user_pay)=>{
+                    if(err) console.log(err);
+                    else {
+                        if(user_pay!=null){
+                            salaries.updateOne({EmployeeName: req.body.staff_user}, {$set:{Allowances: value.Allowances}}, (err, result)=>{
+                                console.log(result);
+                                AddLog = new activities();
+                                AddLog.DateCreated = new Date().toUTCString();
+                                AddLog.Text = "Payroll for "+employee.name+"("+req.body.staff_user+") was modified by "+req.user.name+"("+req.user.username+") on "+AddLog.DateCreated;
+                                AddLog.Company = req.user.company;
+                                AddLog.Department = hrstaff.department;
+                                AddLog.ViewType = 3;
+
+                                AddLog.save((err)=>{
+                                    if(err) console.log(err);
+                                    else{
+                                        employees.updateOne({username: req.body.staff_user},{$set:{paymodification:true}}, (err, passed)=>{
+                                            req.flash("success", "Payroll has been successfully modified");
+                                            res.redirect('/hr/basic-salary');
+                                        })
+                                    }
+                                })
+                            })
+                        }
+                        else{
+                            AddSalary = new salaries();
+                            AddSalary.company = req.user.company;
+                            AddSalary.EmployeeName = req.body.staff_user;
+                            AddSalary.Allowances = value.Allowances;
+
+                            AddSalary.save((err)=>{
+                                if(err) console.log(err);
+                                else{
+                                    AddLog = new activities();
+                                    AddLog.DateCreated = new Date().toUTCString();
+                                    AddLog.Text = "Payroll for "+employee.name+"("+req.body.staff_user+") was created by "+req.user.name+"("+req.user.username+") on "+AddLog.DateCreated;
+                                    AddLog.Company = req.user.company;
+                                    AddLog.Department = hrstaff.department;
+                                    AddLog.ViewType = 3;
+
+                                    AddLog.save((err)=>{
+                                        if(err) console.log(err);
+                                        else{
+                                            employees.updateOne({username: req.body.staff_user},{$set:{paymodification:true}}, (err, passed)=>{
+                                                req.flash("success", "Payroll has been successfully created");
+                                                res.redirect('/hr/basic-salary');
+                                            })
+                                        }
+                                    })
+
+                                }
+                            })
+                        }
+                    }
+                })
+            })
+        })
+    })
 })
 
 router.get('/viewleave', (req, res)=>{
@@ -824,6 +931,112 @@ router.post('/send_message', (req, res)=>{
     })
 
 
+});
+
+router.get('/messages',(req, res)=>{
+    if(req.isAuthenticated() && req.user.user_type==2){
+        employees.findOne({})
+    }
+});
+
+router.get('/generate-payroll', (req, res)=>{
+    if(req.isAuthenticated() && req.user.user_type==2){
+        employees.find({company: req.user.company})
+            .exec()
+            .then(allemployees=>{
+                salaries.find({company: req.user.company})
+                    .exec()
+                    .then(allsalaries=>{
+                        var for_employees = [];
+                        var for_levels = [];
+                        for(var f=0; f< allsalaries.length; f++){
+                            if(allsalaries[f].EmployeeName!=undefined) for_employees.push(allsalaries[f]);
+                            else for_levels.push(allsalaries[f]);
+                        }
+                        notifications.find({company: req.user.company}, (err, allnotifications)=>{
+                            var counter = 0;
+                            for(var d=0; d<allnotifications.length; d++){
+                                if(allnotifications[d].Read==false)counter++;
+                            }
+                            employees.findOne({username: req.user.username},(err, employee)=>{
+                                res.render('payrollpage',{
+                                    user: req.user,
+                                    employee: employee,
+                                    employees: allemployees,
+                                    employeesal:for_employees,
+                                    levelsal:for_levels,
+                                    notifications: allnotifications,
+                                    numRead: counter
+                                })
+                            })
+                        })
+                    })
+                    .catch(err=>{
+                        res.status(200).json({message:"Something went wrong somewhere."+err});
+                    })
+            })
+    }
+});
+
+router.get('/generatepay-:username', (req, res)=>{
+    if(req.isAuthenticated() && req.user.user_type==2){
+        employees.findOne({username: req.params.username, company: req.user.company})
+            .exec()
+            .then(employee=>{
+                if(employee.paymodification==true){
+                    salaries.findOne({company: req.user.company, EmployeeName: req.params.username})
+                        .exec()
+                        .then(salary=>{
+                            notifications.find({company: req.user.company}, (err, allnotifications)=>{
+                                var counter = 0;
+                                for(var d=0; d<allnotifications.length; d++){
+                                    if(allnotifications[d].Read==false)counter++;
+                                }
+                                companies.findOne({username: req.user.company})
+                                    .exec()
+                                    .then(company=>{
+                                        res.render('staffgenroll',{
+                                            user: req.user,
+                                            employee: employee,
+                                            salary: salary,
+                                            numRead: counter,
+                                            notifications: allnotifications,
+                                            company:company
+                                    })
+
+                                
+                                })
+                            })
+                        })
+                }
+                else{
+                    salaries.findOne({company: req.user.company, EmployeeType: employee.level})
+                        .exec()
+                        .then(salary=>{
+                            notifications.find({company: req.user.company}, (err, allnotifications)=>{
+                                var counter = 0;
+                                for(var d=0; d<allnotifications.length; d++){
+                                    if(allnotifications[d].Read==false)counter++;
+                                }
+                                companies.findOne({username: req.user.company})
+                                    .exec()
+                                    .then(company=>{
+                                        res.render('staffgenroll',{
+                                            user: req.user,
+                                            employee: employee,
+                                            salary: salary,
+                                            numRead: counter,
+                                            notifications: allnotifications,
+                                            company:company
+                                    })
+
+                                
+                                })
+                            })
+                        })
+                }
+            })
+    }
 })
 
 module.exports = router;

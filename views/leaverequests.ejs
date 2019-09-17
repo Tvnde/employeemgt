@@ -35,12 +35,12 @@
       
             <nav class="navbar fixed-top navbar-expand-lg navbar-light wholenav" id="navbar-changes">
                
-                    <a class="oner" style="text-decoration:none; color:white" href="#" onclick="openSlideMenu()"><i class="fas fa-bars"></i></a>
+                    <%if(user.user_type==2){%><a class="oner" style="text-decoration:none; color:white" href="#" onclick="openSlideMenu()"><i class="fas fa-bars"></i></a><%}%>
                     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                             <span class="navbar-toggler-icon"></span>
                     </button>
                     </a>
-                  
+                  <%if(user.user_type == 2){%>
                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
                       <ul class="navbar-nav ml-auto" id="custom-move">
                         <li class="nav-item active hvr-sweep-to-top">
@@ -59,25 +59,51 @@
                         <li class="nav-item dropdown hvr-sweep-to-top dropdown-slide dropdown-hover">
                             <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" style="text-decoration:none; color:white" href="#"><div class="notifications"><img src="../assets/img/staff-icon.png" width="70%"/></div><%=user.name%></a>
                             <div class="dropdown-menu dropdown-menu-center" aria-labelledby="navbarDropdownMenuLink">
-                                <a class="dropdown-item" href="/hr/dashboard">Company Profile</a><hr>
-                                <a class="dropdown-item" href="/hr/dashboard">Notifications</a><hr>
-                                <a class="dropdown-item" href="/hr/dashboard">Projects</a><hr>
-                                <a class="dropdown-item" href="/hr/staffs">Staffs</a><hr>
+                                <a class="dropdown-item" href="/hr/company_profile">Company Profile</a><hr>
+                                <a class="dropdown-item" href="/hr/messages">Notifications</a><hr>
                                 <a class="dropdown-item" href="/logout">Logout</a>
                             </div>
                           </li>
                       </ul>
                     </div>
+                    <%}else if(user.user_type==3){%>
+                        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                            <ul class="navbar-nav ml-auto" id="custom-move">
+                              <li class="nav-item active hvr-sweep-to-top">
+                                <a class="nav-link" style="text-decoration:none; color:white" href="/employee/dashboard">Dashboard <span class="sr-only">(current)</span></a>
+                              </li>
+                              <li class="nav-item dropdown hvr-sweep-to-top dropdown-slide dropdown-hover">
+                                <a class="nav-link" id="navbarDropdownMenuLink" data-toggle="dropdown" style="text-decoration:none; color:white" href="#"><div class="notifications"><i class="far fa-bell fa-1x"></i><span><%=numRead%></span></div>Notificatons</a>
+                                <div class="dropdown-menu dropdown-menu-center" aria-labelledby="navbarDropdownMenuLink">
+                                  <%for(var i=0; i< notifications.length; i++){
+                                      if(notifications[i].TypeID==3){%>
+                                       <a href="/admin/viewleavereq/<%=notifications[i].id%>" class="dropdown-item"><i class="fas fa-sign-out-alt"></i><div>Leave Request by <%=notifications[i].Sender.name%></div><hr></a>
+                                      <%}
+                                  }%>
+                                </div>
+                              </li>
+                              <li class="nav-item dropdown hvr-sweep-to-top dropdown-slide dropdown-hover">
+                                  <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" style="text-decoration:none; color:white" href="#"><div class="notifications"><img src="../assets/img/staff-icon.png" width="70%"/></div><%=user.name%></a>
+                                  <div class="dropdown-menu dropdown-menu-center" aria-labelledby="navbarDropdownMenuLink">
+                                      <a class="dropdown-item" href="/employee/company_profile">Company Profile</a><hr>
+                                      <a class="dropdown-item" href="/employee/viewmessages">Messages</a><hr>
+                                      <a class="dropdown-item" href="/logout">Logout</a>
+                                  </div>
+                                </li>
+                            </ul>
+                          </div>
+                    <%}%>
                   </nav><br><br>
                   <div class="navbar navbar-dark bg-dark ewk text-white"">
                       
                         <ul>
                           <li class="nav-item">Home /</li>
-                          <li class="nav-item">H.R.O /</li>
-                          <li class="nav-item">Dashboard</li>
+                          <%if(user.user_type==2){%><li class="nav-item">H.R.O /</li><%}else if(user.user_type==3){%><li class="nav-item">Employee(H.O.D) /</li><%}%>
+                          <li class="nav-item">Leave Requests</li>
                         </ul>
                      
                     </div>
+                    <%if(user.user_type==2){%>
                     <div id="side-menu" class="side-nav bg-dark">
                             <a href="/"><i class="fas fa-home"></i> Dashboard</a>
                             <a href="#"><i class="fas fa-clipboard-list"></i> Attendance</a>
@@ -87,6 +113,7 @@
                             <a href="/hr/departments">Departments</a>
                             <a href="/hr/projects">Projects</a>
                         </div>
+                        <%}%>
                   <br/><br/><br/><br/>
               <div class="all">
                   
@@ -127,8 +154,11 @@
                                                     <p class="text-white">Duration: <%=leaverequests[m].Duration%></p>
                                                     <p class="text-white">Department: <%=leaverequests[m].RequestedBy.department%></p>
                                                     <%if(user.user_type==2){%>
-                                                    <% if(leaverequests[m].Approval == 1 || leaverequests[m].Approval == 0){%>
+                                                    <% if(leaverequests[m].Approval == 0){%>
                                                     <button class="btn btn-outline-info"><a href="/hr/<%=leaverequests[m].id%>/accept" style="text-decoration: none; color: teal">Accept</a></button>&nbsp;<button class="btn btn-outline-info"><a href="/hr/<%=leaverequests[m].id%>/reject" style="text-decoration: none; color: teal">Reject</a></button>&nbsp;<button class="btn btn-outline-info">Send a Message</button>
+                                                    <%}else if(leaverequests[m].Approval == 1){%>
+                                                        <p>This request has been approved by the Department.</p>
+                                                        <button class="btn btn-outline-info"><a href="/hr/<%=leaverequests[m].id%>/accept" style="text-decoration: none; color: teal">Accept</a></button>&nbsp;<button class="btn btn-outline-info"><a href="/hr/<%=leaverequests[m].id%>/reject" style="text-decoration: none; color: teal">Reject</a></button>&nbsp;<button class="btn btn-outline-info">Send a Message</button>
                                                     <%}else if(leaverequests[m].Approval == 2){%>
                                                         <p class="text-white">This Request was Approved.</p>
                                                         <%}else{%>

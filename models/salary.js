@@ -9,8 +9,7 @@ const SalarySchema = mongoose.Schema({
         type: String
     },
     EmployeeType: {
-        type: Number,
-        required: true
+        type: Number
     },
     Allowances: {
         type: Object,

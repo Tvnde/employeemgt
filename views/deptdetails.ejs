@@ -146,7 +146,7 @@
                                         <div class="dept-name text-white">
                                             Department Name: <%=department.name%><br>
                                             Number of Staffs in department: <%=employees.length%><br>
-                                            <%if(hod.name==undefined){%>
+                                            <%if(hod==undefined){%>
                                                 Head of Department: <button class="btn btn-outline-info" type="button" onclick="showList()">Assign</button>
                                                 <%}else{%>
                                             Head of Department: <%=hod.name%>
@@ -177,7 +177,7 @@
                                                         </div>
 
                                                         <div class="col-md-4">
-                                                          <a href="/admin/projects?<%=department.id%>" style="text-decoration: none; color:#fff">
+                                                          <a href="/admin/projects<%=department.id%>" style="text-decoration: none; color:#fff">
                                                               <div class="card shadow">
                                                                   <i class="fas fa-project-diagram" style="margin: 0 auto; padding-top: 5px; color: #fff"></i>
                                                                 <h5 class="card-title" style="margin: 0 auto;">View Projects</h5>

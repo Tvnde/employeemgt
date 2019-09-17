@@ -7,6 +7,7 @@ const notifications = require('../models/notification');
 const leaverequests = require('../models/leaverequest');
 const activities = require('../models/activelog');
 const messages = require('../models/message');
+const salaries = require('../models/salary');
 
 const EmployeeController = require('../controllers/employees');
 
@@ -80,6 +81,57 @@ router.get('/viewmessages', (req, res)=>{
         employees.findOne({username: req.user.username}, (err, employee)=>{
             messages.find({Receiver: employee},(err, user_messages)=>{
                 console.log(user_messages);
+            })
+        })
+    }
+});
+
+router.get('/:leaveID/accept', (req, res)=>{
+    if(req.isAuthenticated() && req.user.user_type==3){
+        leaverequests.findByIdAndUpdate(req.params.leaveID, {$set:{Approval: 1}}, {useFindAndModify: false}, (err, leaverequest)=>{
+            if(err) console.log(err);
+            else{
+                req.flash("success", "Leave Approved");
+                res.redirect('/employee/viewleave');
+            }
+        })
+    }
+});
+
+router.get('/:leaveID/reject', (req, res)=>{
+    if(req.isAuthenticated() && req.user.user_type==3){
+        leaverequests.findByIdAndUpdate(req.params.leaveID, {$set: {Approval: -1}}, {useFindAndModify: false}, (err, leaverequest)=>{
+            if(err) console.log(err);
+            else{
+                req.flash("danger", "Leave Declined");
+                res.redirect('/employee/viewleave');
+            }
+        })
+    }
+});
+
+router.get('/payslip', (req, res)=>{
+    if(req.isAuthenticated() && req.user.user_type==1||req.user.user_type==3){
+        employees.findOne({username: req.user.username}, (err, employee)=>{
+            salaries.findOne({EmployeeName: req.user.username}, (err, salary)=>{
+                if(salary!=null){
+                    console.log("+"+salary);
+                    res.render('staffrollview',{
+                        user: req.user,
+                        employee: employee,
+                        payroll: salary
+                    })
+                }
+                else{
+                    salaries.findOne({EmployeeType: employee.level}, (err, staff_salary)=>{
+                        console.log("-"+staff_salary);
+                        res.render('staffrollview',{
+                            user: req.user,
+                            employee: employee,
+                            payroll: staff_salary
+                        })
+                    })
+                }
             })
         })
     }

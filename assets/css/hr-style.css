@@ -150,6 +150,20 @@ nav{
     background-image: linear-gradient(147deg, #000000 0%, #2c3e50 74%)!important;
 }
 
+.compan-logo{
+    margin-left: 7%!important
+}
+.employee-details{
+    margin-top: 40px;
+}
+.employee-details .card{
+    width: 60%;
+}
+.payroll-details{
+    margin-top: 10%;
+    margin-left: 40%;
+}
+
 .side-nav{
     height: 100%;
     width: 0;

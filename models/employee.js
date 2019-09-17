@@ -39,6 +39,10 @@ const EmployeeSchema = mongoose.Schema({
     profilephoto: {
         type: String,
         required: true
+    },
+    paymodification:{
+        type: Boolean,
+        default: false
     }
 })
 

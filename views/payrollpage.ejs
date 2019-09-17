@@ -10,6 +10,9 @@
     <link rel="stylesheet" type="text/css" href="../assets/css/hr-style.css">
     <link rel="stylesheet" type="text/css" href="../assets/css/hover-min.css">
     <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/1.5.6/css/buttons.dataTables.min.css">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     
     <script type="text/javascript">
@@ -44,7 +47,7 @@
                       <a class="nav-link" style="text-decoration:none; color:white" href="/hr/dashboard">Dashboard <span class="sr-only">(current)</span></a>
                     </li>
                     <li class="nav-item dropdown hvr-sweep-to-top dropdown-slide dropdown-hover">
-                      <a class="nav-link" id="navbarDropdownMenuLink" data-toggle="dropdown" style="text-decoration:none; color:white" href="#"><div class="notifications"><i class="far fa-bell fa-1x"></i><span><%=unreadCount%></span></div>Notificatons</a>
+                      <a class="nav-link" id="navbarDropdownMenuLink" data-toggle="dropdown" style="text-decoration:none; color:white" href="#"><div class="notifications"><i class="far fa-bell fa-1x"></i><span><%=numRead%></span></div>Notificatons</a>
                       <div class="dropdown-menu dropdown-menu-center" aria-labelledby="navbarDropdownMenuLink">
                         <%for(var i=0; i< notifications.length; i++){
                             if(notifications[i].TypeID==3){%>
@@ -82,7 +85,7 @@
                   <div class="container">
                       <%-messages('message', locals) %>
                       <div class="row">
-                          <div class="col-md-3">
+                          <!-- <div class="col-md-3">
                             <div class="list-group">
                                 <div class="hold-image" style="margin-left: 15%;">
                                     <img src="../<%=employee.profilephoto%>" width="200" height="200"/>
@@ -91,38 +94,59 @@
                                     Name: <%=user.name%>
                                 </div>
                                 <div class="role">
-                                   Admin Page
+                                   HR Page
                                 </div>
                               </div>
-                          </div>
-                          <div class="col-md-9"><div class="container"><a href="/hr/payroll-system" style="text-decoration: none; color:#ffffff"><i class="fas fa-arrow-left"></i>Back</a>&nbsp;&nbsp;<a href="/hr/setup-payroll" style="text-decoration:none; color: #ffffff;">Create New Payroll</a></div>
+                          </div> -->
+                          <div class="col-md-12"><div class="container"><a href="/hr/payroll-system" style="text-decoration: none; color:#ffffff"><i class="fas fa-arrow-left"></i>Back</a>&nbsp;&nbsp;<a href="/hr/setup-payroll" style="text-decoration:none; color: #ffffff;">Create New Payroll</a></div>
                             <div class="card">
                               <h5 class="card-header text-white text-center">Payroll</h5>
-                              <div class="card-body text-white">
-                                <%if(salaries.length==0){%>
-                                    <p><%=company.name%> hasn't set up any payroll for employees yet. <a href="/hr/setup-payroll" style="text-decoration:none">Click</a> to set up</p>
-                                <%}else{%>
-                                    <div class="row">
-                                    <%for(var c=0; c< salaries.length; c++){%>
-                                      <div class="col-md-4">
-                                        <div class="card">
-                                          <h6 class="card-header text-center text-white">Level <%=salaries[c].EmployeeType%></h6>
-                                          <div class="card-body text-center text-white">
-                                            <%for(var key in salaries[c].Allowances){
-                                              if(salaries[c].Allowances.hasOwnProperty(key)){%>
-                                                <%=key%>: <%=salaries[c].Allowances[key]%><br>
-
-                                              <%}
-                                            }%>
-                                            <div class="container"><a href="/hr/level<%=salaries[c].EmployeeType%>" style="text-decoration: none; color: #ffffff; float: right; margin-top: 15px;">Edit Payroll</a></div>
-                                          </div>
-                                        </div>
-                                      </div>
-                                    <%}%>
-                                    </div>
-                                  <%}%>
-                               <br/><br/>
-                              
+                              <div class="card-body text-dark bg-light">
+                                <table id="example" class="display nowrap" style="width: 100%; font-size: 10px;">
+                                    <thead>
+                                        <tr><!-- 
+                                            <th>S/N</th> -->
+                                            <th>Employee Name</th>
+                                            <th>Employee ID</th>
+                                            <%for(var key in levelsal[0].Allowances){%>
+                                                <th><%=key%></th>
+                                            <%}%>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <%for(var c=0; c< employees.length; c++){
+                                            if(employees[c].paymodification==true){
+                                              for(var e=0; e< employeesal.length; e++){
+                                                  if(employees[c].username == employeesal[e].EmployeeName){%>
+                                                      <tr>
+                                                          <td><%=employees[c].name%></td>
+                                                          <td><%=employees[c].username%></td>
+                                                          <%for(var key in employeesal[e].Allowances){%>
+                                                              <td><%=employeesal[e].Allowances[key]%></td>
+                                                          <%}%>
+                                                          <td><a href="/hr/generatepay/<%=employees[c].username%>"><button type="button" class="btn btn-sm btn-success">Generate</button></a></td>
+                                                      </tr>
+                                                  <%break;}
+                                              }
+                                            }else{
+                                              for(var x=0;x< levelsal.length; x++){
+                                                if(employees[c].level == levelsal[x].EmployeeType){%>
+                                                  <tr>
+                                                    <td><%=employees[c].name%></td>
+                                                    <td><%=employees[c].username%></td>
+                                                    <%for(var key in levelsal[x].Allowances){%>
+                                                        <td><%=levelsal[x].Allowances[key]%></td>
+                                                    <%}%>
+                                                    <td><a href="/hr/generatepay-<%=employees[c].username%>"><button type="button" class="btn btn-sm btn-success">Generate</button></a></td>
+                                                  </tr>
+                                                <%break;}
+                                              }
+                                            }
+                                        }%>
+                                        
+                                    </tbody>
+                                </table>
                              
                               </div>
                             </div><br>
@@ -139,5 +163,27 @@
               <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
               <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
               <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+              <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+              <script src="https://cdn.datatables.net/buttons/1.5.6/js/dataTables.buttons.min.js"></script>
+              <script src="https://cdn.datatables.net/buttons/1.5.6/js/buttons.flash.min.js"></script>
+              <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+              <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+              <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+              <script src="https://cdn.datatables.net/buttons/1.5.6/js/buttons.html5.min.js"></script>
+              <script src="https://cdn.datatables.net/buttons/1.5.6/js/buttons.print.min.js"></script>
+
+              <script type="text/javascript">
+                $(document).ready(function() {
+                          $('#example').DataTable( {
+                              "order": [[ 3, "desc" ]],
+                              dom: 'Bfrtip',
+                              buttons: [
+                                  {extend:'copy',className: "buttonstoHide"},
+                                  {extend:'excel',className: "buttonstoHide"},
+                                  {extend:'pdf',className: "buttonstoHide"}
+                              ]
+                          } );
+                      } );
+              </script>
               </body>
               </html>

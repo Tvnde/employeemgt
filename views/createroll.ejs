@@ -124,7 +124,7 @@
                                 </div>
                                 <div class="form-row">
                                         <div class="form-group">
-                                            <button type="button" onclick="incr()" class="btn btn-md btn-outline-info">Add Allowance</button>
+                                            <button type="button" onclick="incr()" class="btn btn-md btn-outline-info">Add Allowance</button>&nbsp; &nbsp;<button type="button" onclick="decr()" class="btn btn-md btn-outline-info">Add Deduction</button>
                                             <button type="submit" class="btn btn-md btn-outline-info">Submit</button>
                                         </div>
                                     </div><br>
@@ -154,7 +154,10 @@
                   function incr(){
                       $('.hold-form').append('<br><div class="form-row"><div class="form-group text-white"><label for="allowance">Allowance</label><br>For: <input type="text" class="form-control hold-button" name=allowance'+i+'><br>Amount: <div class="holde"><input type="text" class="form-control buttn-hold enter_value'+i+'" name=amount'+i+'><div id="click"><button type="button" class="btn btn-sm btn-primary naira" onclick="getter()">NGN</button><button type="button" class="btn btn-sm btn-danger percent" onclick="turnpercent('+i+')"><i class="fas fa-percentage"></i></button></div></div></div></div>');
                       i++;
-
+                  }
+                  function decr(){
+                      $('.hold-form').append('<div class="form-row text-white"><div class="form-group"><label for="allowance" style="margin-left: 40%">Deduction</label><br>For: <input type="text" class="form-control hold-button" name=deduction'+i+'><br>Amount: <div class="holde"><input type="text" class="form-control buttn-hold" name=decamount'+i+'><div id="click"><button type="button" class="btn btn-sm btn-primary naira" onclick="getter()">NGN</button><button type="button" class="btn btn-sm btn-danger percent"><i class="fas fa-percentage"></i></button></div></div></div></div>');
+                      i++;
                   }
 
                   

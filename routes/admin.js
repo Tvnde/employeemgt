@@ -105,7 +105,7 @@ router.get('/viewdept:deptID', (req, res)=>{
     var hod;
     departments.findById(req.params.deptID, (err, department)=>{
         users.find({user_type: 3},(err, allhods)=>{
-            
+            console.log(allhods);
         employees.find({company: req.user.username}, (err, allemployees)=>{
             for(var s=0; s< allemployees.length; s++){
                 if(allemployees[s].department == department.name){
@@ -113,15 +113,17 @@ router.get('/viewdept:deptID', (req, res)=>{
                 }
                 if(allemployees[s].username == req.user.username) employee = allemployees[s];
             }
+            console.log(holder);
             if(allhods.length>0){
                 for(var n=0; n< allhods.length; n++){
-                    for(var t=0; t<holder.length; holder++){
+                    for(var t=0; t<holder.length; t++){
                         if(allhods[n].username == holder[t].username){
+                            console.log("true");
                             hod = holder[t];
                             break;
                         }
-                        if(hod!=undefined) break;
                     }
+                    if(hod!=undefined) break;
                 }
         } else hod = {};
             notifications.find({company: req.user.username}, (err, allnotifications)=>{
@@ -130,6 +132,7 @@ router.get('/viewdept:deptID', (req, res)=>{
                     if(allnotifications[d].Read==false)counter++;
                 }
                 console.log(company);
+                console.log(hod);
                 res.render('deptdetails',{
                     user: req.user,
                     employees: holder,

@@ -140,7 +140,7 @@
                                                                             <div class="form-row">
                                                                                 <div class="form-group" style="margin: 6px 1px 0 0"><%=key%>: </div>
                                                                                 <div class="form-group" style="margin: 0 1px 0 0;" id="input<%=key%>" hidden><input id="get<%=key%>" type="text" class="form-control" name="<%=key%>"/></div>
-                                                                                <div class="form-group" id="former<%=key%>" name="<%=key%>form" style="margin: 6px 1px 0 0"> &nbsp; <%fpayroll[0].Allowances[key].replace('-','')%></div>
+                                                                                <div class="form-group" id="former<%=key%>" name="<%=key%>form" style="margin: 6px 1px 0 0"> &nbsp; <%=fpayroll[0].Allowances[key]%></div>
                                                                                 <div class="form-group" id="change<%=key%>Buttn"> &nbsp; <button type="button" id="changeValue" onclick="changeVal('<%=key%>')" class="btn btn-sm btn-outline-secondary">Change</button> </div>
                                                                                 <div class="form-group" id="undo<%=key%>Buttn" hidden> &nbsp; <button type="button" id="undoChange" onclick="UndoChange('<%=key%>')" class="btn btn-sm btn-outline-secondary">Undo</button> </div>
                                                                             </div>
@@ -159,7 +159,7 @@
                                                                     <div class="form-row">
                                                                         <div class="form-group" style="margin: 6px 1px 0 0"><%=key%>: </div>
                                                                         <div class="form-group" style="margin: 0 1px 0 0;" id="input<%=key%>" hidden><input id="get<%=key%>" type="text" class="form-control" name="<%=key%>"/></div>
-                                                                        <div class="form-group" id="former<%=key%>" name="<%=key%>form" style="margin: 6px 1px 0 0"> &nbsp; <%=fpayroll[0].Allowances[key]%></div>
+                                                                        <div class="form-group" id="former<%=key%>" name="<%=key%>form" style="margin: 6px 1px 0 0"> &nbsp; <%=fpayroll[0].Allowances[key].replace('-','')%></div>
                                                                         <div class="form-group" id="change<%=key%>Buttn"> &nbsp; <button type="button" id="changeValue" onclick="changeVal('<%=key%>')" class="btn btn-sm btn-outline-secondary">Change</button> </div>
                                                                         <div class="form-group" id="undo<%=key%>Buttn" hidden> &nbsp; <button type="button" id="undoChange" onclick="UndoChange('<%=key%>')" class="btn btn-sm btn-outline-secondary">Undo</button> </div>
                                                                     </div>
@@ -173,9 +173,9 @@
                                                         </form>
                                                   </div>
                                                   
-                                              </div>
+                                              </div><br>
                                               <div class="row">
-                                                    <div class="col-md-8">
+                                                    <div class="col-md-8" style="margin: 0 auto">
                                                             <div class="card">
                                                                 <h5 class="card-header text-white text-center">Edit Payroll for Level <%=fpayroll[0].EmployeeType%> Staff</h5>
                                                                 <div class="card-body">
@@ -215,7 +215,6 @@
                       }
 
                       function UndoChange(check){
-                         //  $('#get'+check).val() = "";
                           $('#former'+check).show();
                           $('#input'+check).attr("hidden", true);
                           $('#undo'+check+'Buttn').attr("hidden", true);
