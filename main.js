@@ -84,6 +84,6 @@ app.use('/employee', require('./routes/employees'));
 app.use('/admin', require('./routes/admin'));
 app.use('/hr', require('./routes/humanres'));
 
-app.listen(5500, ()=>{
+app.listen(process.env.PORT || 5500, ()=>{
     console.log("Employee Management Server running...")
 });
